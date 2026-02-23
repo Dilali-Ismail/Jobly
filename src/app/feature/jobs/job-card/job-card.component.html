@@ -1,0 +1,56 @@
+<div class="bg-white rounded-lg shadow p-6 hover:shadow-md transition-shadow">
+
+  <!-- En-tête -->
+  <div class="flex justify-between items-start mb-3">
+    <div>
+      <h3 class="text-lg font-bold text-gray-900">{{ job.title }}</h3>
+      <p class="text-blue-600 font-medium">{{ job.company_name }}</p>
+    </div>
+    <span *ngIf="job.remote"
+      class="bg-green-100 text-green-700 text-xs font-semibold px-2 py-1 rounded-full">
+      🏠 Remote
+    </span>
+  </div>
+
+  <!-- Localisation + type -->
+  <div class="flex gap-4 text-sm text-gray-500 mb-3">
+    <span>📍 {{ job.location }}</span>
+    <span *ngIf="job.job_types?.length">💼 {{ job.job_types[0] }}</span>
+  </div>
+
+  <!-- Description (texte propre, 2 lignes max) -->
+  <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+    {{ job.description }}
+  </p>
+
+  <!-- Tags -->
+  <div class="flex flex-wrap gap-2 mb-4">
+    <span *ngFor="let tag of job.tags.slice(0, 4)"
+      class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">
+      {{ tag }}
+    </span>
+  </div>
+
+  <!-- Footer -->
+  <div class="flex justify-between items-center pt-3 border-t border-gray-100">
+    <span class="text-xs text-gray-400">
+      {{ job.create_at * 1000 | date:'dd/MM/yyyy' }}
+    </span>
+    <ng-container *ngIf="{ fav: isFavourit | async } as state">
+  <button
+    class="text-2xl hover:scale-110 transition-transform"
+    (click)="toggleFavorite()"
+    [title]="state.fav ? 'Retirer des favoris' : 'Ajouter aux favoris'">
+    {{ state.fav ? '❤️' : '🤍' }}
+  </button>
+</ng-container>
+    <button (click)="postuler()"
+        class="bg-green-600 text-white text-sm px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+        Postuler
+   </button>
+    <a [href]="job.url" target="_blank"
+      class="bg-blue-600 text-white text-sm px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+      Voir l'offre →
+    </a>
+  </div>
+</div>

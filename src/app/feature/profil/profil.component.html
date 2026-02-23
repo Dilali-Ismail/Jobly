@@ -1,0 +1,51 @@
+<div class="container mx-auto p-6 max-w-lg">
+  <div class="bg-white shadow-xl rounded-2xl p-8 border border-gray-100">
+
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-2xl font-black text-gray-900 italic">Mon Profil</h1>
+      <button (click)="toggleEdit()" class="text-blue-600 font-bold hover:underline">
+        {{ editMode ? 'Annuler' : 'Modifier le profil' }}
+      </button>
+    </div>
+
+    <!-- MODE AFFICHAGE -->
+    <div *ngIf="!editMode" class="space-y-6">
+      <div class="flex flex-col">
+        <span class="text-xs text-gray-400 uppercase font-bold tracking-widest">Identité</span>
+        <span class="text-lg font-medium">{{ user?.nom }} {{ user?.prenom }}</span>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-xs text-gray-400 uppercase font-bold tracking-widest">Email</span>
+        <span class="text-lg font-medium">{{ user?.email }}</span>
+      </div>
+      <button (click)="deletAccount()" class="text-red-500 text-sm font-medium hover:text-red-700 transition-colors pt-8">
+        Quitter Jobly et supprimer mon compte
+      </button>
+    </div>
+
+    <!-- MODE ÉDITION (REACTIVE FORM) -->
+    <form *ngIf="editMode" [formGroup]="profileForm" (ngSubmit)="saveprofil()" class="space-y-4">
+      <div>
+        <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Nom</label>
+        <input formControlName="nom" class="w-full border-2 border-gray-100 p-3 rounded-xl focus:border-blue-500 outline-none transition-all">
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Prénom</label>
+        <input formControlName="prenom" class="w-full border-2 border-gray-100 p-3 rounded-xl focus:border-blue-500 outline-none transition-all">
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Email</label>
+        <input formControlName="email" class="w-full border-2 border-gray-100 p-3 rounded-xl focus:border-blue-500 outline-none transition-all">
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Nouveau Mot de passe</label>
+        <input formControlName="password" type="password" class="w-full border-2 border-gray-100 p-3 rounded-xl focus:border-blue-500 outline-none transition-all">
+      </div>
+
+      <button type="submit" [disabled]="profileForm.invalid" class="w-full bg-blue-600 text-white p-4 rounded-xl font-black hover:bg-blue-700 disabled:bg-gray-200 transition-all shadow-lg hover:shadow-blue-200">
+        Sauvegarder les changements
+      </button>
+    </form>
+
+  </div>
+</div>

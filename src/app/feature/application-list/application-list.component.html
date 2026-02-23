@@ -1,0 +1,53 @@
+<div class="container mx-auto p-6 max-w-3xl">
+  <h1 class="text-2xl font-black text-gray-800 mb-10 italic">Mes Candidatures </h1>
+
+  <div *ngIf="applications | async as apps; else loading" class="space-y-4">
+    <div *ngFor="let app of apps"
+         class="bg-white border border-gray-100 p-5 rounded-2xl shadow-sm hover:shadow-md transition-shadow flex flex-col md:flex-row md:items-center justify-between gap-4">
+
+      <div class="flex-1">
+        <h3 class="font-bold text-gray-900 text-lg leading-tight">{{ app.job.title }}</h3>
+        <p class="text-blue-600 font-medium text-sm">{{ app.job.company_name }}</p>
+        <p class="text-[10px] text-gray-400 mt-2 font-bold uppercase tracking-tighter">
+          Postule le {{ app.appliedDate | date:'dd/MM/yyyy' }}
+        </p>
+      </div>
+
+      <div class="flex items-center gap-6 self-end md:self-auto">
+
+        <!-- Badge de Statut (Couleur dynamique) -->
+        <span [ngClass]="{
+          'bg-yellow-100 text-yellow-700': app.status === 'en attente',
+          'bg-green-100 text-green-700': app.status === 'accepté',
+          'bg-red-100 text-red-700': app.status === 'refusé'
+        }" class="px-3 py-1 rounded-full text-[10px] font-black uppercase">
+          {{ app.status }}
+        </span>
+
+        <select [value]="app.status"
+                (change)="OnStatusChange($event, app.id)"
+                class="bg-gray-50 border-none rounded-lg p-2 text-xs font-bold text-gray-600 outline-none focus:ring-2 focus:ring-blue-100">
+          <option value="en attente"> En attente</option>
+          <option value="accepté"> Accepté</option>
+          <option value="refusé"> Refusé</option>
+        </select>
+
+        <button (click)="removeApp(app.id)"
+                class="text-gray-300 hover:text-red-500 transition-colors"
+                title="Supprimer la candidature">
+          supprimer
+        </button>
+      </div>
+
+    </div>
+
+    <div *ngIf="apps.length === 0" class="text-center py-20 bg-gray-50 rounded-3xl border-2 border-dashed">
+      <p class="text-gray-400 font-medium">Aucune candidature pour le moment.</p>
+    </div>
+
+  </div>
+
+  <ng-template #loading>
+    <div class="text-center py-20 animate-pulse text-gray-300 font-bold italic">Chargement...</div>
+  </ng-template>
+</div>

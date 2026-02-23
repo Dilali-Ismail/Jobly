@@ -1,0 +1,33 @@
+<header class="bg-blue-600 text-white shadow-md">
+  <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+
+    <!-- Logo -->
+    <a routerLink="/" class="text-2xl font-bold tracking-tighter hover:text-blue-100 transition-colors">
+      Jobly
+    </a>
+
+    <!-- Navigation Droite -->
+    <nav class="flex items-center space-x-8">
+      <a routerLink="/jobs" class="hover:text-blue-200 transition-colors">Jobs</a>
+
+      <!-- Si NON Connecté -->
+      <ng-container *ngIf="!isLoggedIn">
+        <a routerLink="/login" class="hover:text-blue-200 transition-colors">Login</a>
+        <a routerLink="/register" class="bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
+          Register
+        </a>
+      </ng-container>
+
+      <!-- Si CONNECTÉ -->
+      <ng-container *ngIf="isLoggedIn">
+        <a routerLink="/favorites" class="hover:text-blue-200 transition-colors">Favorites</a>
+        <a routerLink="/applications" class="hover:text-blue-200 transition-colors">Candidatures</a>
+        <a routerLink="/profile" class="hover:text-blue-200 font-medium">👤 Profil</a>
+        <button (click)="logout()" class="text-red-200 hover:text-white transition-colors">
+          Logout
+        </button>
+      </ng-container>
+    </nav>
+
+  </div>
+</header>
